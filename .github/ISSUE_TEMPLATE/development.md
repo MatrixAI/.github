@@ -1,6 +1,6 @@
 ---
 name: Development
-about: Develop a new feature or architecture
+about: Develop a new feature or architecture, this should be a unit issue
 title: ''
 labels: development
 assignees: ''
