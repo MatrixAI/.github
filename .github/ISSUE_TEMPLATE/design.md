@@ -2,7 +2,7 @@
 name: Design
 about: Design a new feature or architecture (this is usually an epic)
 title: ''
-labels: enhancement
+labels: design, enhancement
 assignees: ''
 
 ---
