@@ -19,7 +19,7 @@ Items of literature, websites, prior work, issues to review and read:
 **Research conclusion**
 Write a conclusion regarding the research after using the comments to indicate progress.
 
-**Subissues created**
+**Sub-Issues & Sub-PRs created**
 List design/development subissues and PRs derived from this research:
 1. ...
 2. ...
