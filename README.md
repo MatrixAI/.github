@@ -7,3 +7,5 @@ GitHub templates are stored in `.github`. This repository must be placed under h
 GitLab templates are stored in `.gitlab`. This repository must be selected as the templates repository under `Settings > General > Templates`.
 
 Note that template syntax differs by a little bit. In particular GitHub templates require a stanza at the beginning while GitLab templates use special slash commands. When updating the templates for GitHub or GitLab, ensure that it is also updated for the other system as well so we can have a consistent set of templates.
+
+Ensure that this repository is mirrored from GitLab to GitHub.
