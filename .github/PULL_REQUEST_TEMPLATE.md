@@ -14,8 +14,8 @@
 ### Final checklist
 <!-- Please check what applies. Note that these are not hard requirements but merely serve as information for reviewers. -->
 
-* [ ] Domain specific tests with `npm test -- tests/DOMAIN`
-* [ ] Full tests with `npm test`
+* [ ] Domain specific tests
+* [ ] Full tests
 * [ ] Updated inline-comment documentation
 * [ ] Lint fixed
 * [ ] Squash and rebased
