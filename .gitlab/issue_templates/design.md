@@ -1,12 +1,3 @@
----
-name: Design
-about: Design a new feature or architecture (this is usually an epic)
-title: ''
-labels: design, enhancement
-assignees: ''
-
----
-
 ### Requirements of this design
 <!-- What are the goals/requirements that this is designed to solve? Examples include "user wants to do X because of Y reason". -->
 1. ...
@@ -27,3 +18,5 @@ assignees: ''
 1. ...
 2. ...
 3. ...
+
+/label ~design ~enhancement

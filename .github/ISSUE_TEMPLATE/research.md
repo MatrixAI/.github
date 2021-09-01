@@ -2,7 +2,7 @@
 name: Research
 about: Research a new idea
 title: ''
-labels: enhancement
+labels: research
 assignees: ''
 
 ---

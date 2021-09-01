@@ -1,12 +1,3 @@
----
-name: Research
-about: Research a new idea
-title: ''
-labels: enhancement
-assignees: ''
-
----
-
 ### What is your research hypothesis/question?
 <!-- What is the topic of research here? What is the question attempting to be answered? What are the resources that you intend to read/explore? -->
 
@@ -24,3 +15,5 @@ assignees: ''
 1. ...
 2. ...
 3. ...
+
+/label ~research
