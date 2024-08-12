@@ -1,8 +1,8 @@
 ---
 name: UI/UX
-about: UI/UX design a new page or new component or interaciton
+about: UI/UX design a new page or new component or interaction
 title: ''
-labels: ui/ux, enhancement
+labels: ui/ux
 assignees: ''
 
 ---
