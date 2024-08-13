@@ -7,8 +7,11 @@ assignees: ''
 
 ---
 
+### Overview
+<!-- Explain the purpose of this UI/UX design. --->
+
 ### Low-Fidelity Design
-<!-- Start with a low-fidelity design sketch, such as from Excalidraw or another sketching tool. Include a link or image if available, or embed the SVG. -->
+<!-- Start with a low-fidelity design sketch, such as from Excalidraw. Embed the exported SVG with a readonly link to the original diagram. -->
 
 ### High-Fidelity Design
 <!-- Move to a higher-fidelity UI design. Include links or images from Figma or other design tools. -->
