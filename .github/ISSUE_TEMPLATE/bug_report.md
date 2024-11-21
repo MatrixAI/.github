@@ -22,10 +22,12 @@ assignees: ''
 ### Screenshots
 <!-- If applicable, add screenshots to help explain your problem. -->
 
-### Platform (please complete the following information)
+### Platform
+<!-- Please complete the following information. -->
+
  - Device: [e.g. iPhone6] 
  - OS: [e.g. iOS]
- - Version [e.g. 22]
+ - Version: [e.g. 22]
 
 ### Additional context
 <!-- Add any other context about the problem here. -->
