@@ -11,6 +11,7 @@ jobs:
     container:
       image: ghcr.io/matrixai/github-runner
     permissions:
+      packages: read
       contents: read
     steps:
       - uses: actions/checkout@v4
@@ -27,6 +28,7 @@ jobs:
     container:
       image: ghcr.io/matrixai/github-runner
     permissions:
+      packages: read
       contents: read
       actions: write
       checks: write
@@ -61,6 +63,7 @@ jobs:
     container:
       image: ghcr.io/matrixai/github-runner
     permissions:
+      packages: read
       contents: read
       actions: write
     steps:
