@@ -31,15 +31,13 @@ jobs:
   staging-lint:
     name: "Staging / Lint"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: true
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run linting
         env:
           NIX_CONFIG: access-tokens = github.com=${{ secrets.NIXPKGS_PRIVATE_PAT }}
@@ -53,7 +51,6 @@ jobs:
     name: "Staging / Merge Begin"
     runs-on: ubuntu-latest
     permissions:
-      packages: read
       contents: read
       pull-requests: write
     steps:
@@ -78,16 +75,14 @@ jobs:
   staging-build:
     name: "Staging / Build"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
       actions: write
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: true
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run build
         env:
           NIX_CONFIG: access-tokens = github.com=${{ secrets.NIXPKGS_PRIVATE_PAT }}
@@ -106,13 +101,10 @@ jobs:
     name: "Staging / Deployment"
     runs-on: ubuntu-latest
     needs: staging-build
-    container:
-      image: ghcr.io/matrixai/github-runner
     concurrency:
       group: staging-deployment
       cancel-in-progress: false
     permissions:
-      packages: read
       contents: read
     steps:
       - name: Checkout Actions
@@ -121,6 +113,7 @@ jobs:
           repository: MatrixAI/.github
           ref: ${{ inputs.ref }}
           path: tmp/.github
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Parse Secrets
         uses: ./tmp/.github/.github/actions/secrets-parse
         with:
@@ -153,7 +146,6 @@ jobs:
       group: staging-merge-finish
       cancel-in-progress: true
     permissions:
-      packages: read
       contents: write
       pull-requests: write
     steps:

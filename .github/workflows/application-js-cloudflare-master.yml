@@ -21,16 +21,14 @@ jobs:
   master-build:
     name: "Master / Build"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
       actions: write
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: true
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run build
         env:
           NIX_CONFIG: access-tokens = github.com=${{ secrets.NIXPKGS_PRIVATE_PAT }}
@@ -49,13 +47,10 @@ jobs:
     name: "Master / Deployment"
     runs-on: ubuntu-latest
     needs: master-build
-    container:
-      image: ghcr.io/matrixai/github-runner
     concurrency:
       group: master-deployment
       cancel-in-progress: false
     permissions:
-      packages: read
       contents: read
     steps:
       - name: Checkout Actions
@@ -64,6 +59,7 @@ jobs:
           repository: MatrixAI/.github
           ref: ${{ inputs.ref }}
           path: tmp/.github
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Parse Secrets
         uses: ./tmp/.github/.github/actions/secrets-parse
         with:

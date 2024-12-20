@@ -11,14 +11,12 @@ jobs:
   tag-build:
     name: "Tag / Build"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
       actions: write
     steps:
       - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run build
         run: |
           nix develop .#ci --command bash -c $'
@@ -34,19 +32,17 @@ jobs:
   tag-prerelease:
     name: "Tag / Pre-release"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     concurrency:
       group: tag-prerelease
       cancel-in-progress: false
     needs:
       - tag-build
     permissions:
-      packages: read
       contents: read
     if: startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-')
     steps:
       - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - uses: actions/download-artifact@v4
         with:
           name: dist
@@ -68,19 +64,17 @@ jobs:
   tag-release:
     name: "Tag / Release"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     concurrency:
       group: tag-release
       cancel-in-progress: false
     needs:
       - tag-build
     permissions:
-      packages: read
       contents: read
     if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-')
     steps:
       - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - uses: actions/download-artifact@v4
         with:
           name: dist

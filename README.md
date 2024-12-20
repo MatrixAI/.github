@@ -51,7 +51,6 @@ in `/.github/workflows`:
   jobs:
   use-library-js-feature:
       permissions:
-      packages: read
       contents: read
       actions: write
       checks: write
@@ -74,7 +73,6 @@ in `/.github/workflows`:
   jobs:
     use-library-js-staging:
       permissions:
-        packages: read
         contents: read
         actions: write
         checks: write
@@ -95,7 +93,6 @@ in `/.github/workflows`:
   jobs:
     use-library-js-tag:
       permissions:
-        packages: read
         contents: read
         actions: write
       uses: MatrixAI/.github/.github/workflows/library-js-tag.yml@master
