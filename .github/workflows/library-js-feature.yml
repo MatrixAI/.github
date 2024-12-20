@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/matrixai/github-runner
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Run linting
@@ -24,6 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/matrixai/github-runner
+    permissions:
+      contents: read
+      actions: write
+      checks: write
     steps:
       - uses: actions/checkout@v4
       - name: Run tests
@@ -54,6 +60,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/matrixai/github-runner
+    permissions:
+      contents: read
+      actions: write
     steps:
       - uses: actions/checkout@v4
       - name: Run build
