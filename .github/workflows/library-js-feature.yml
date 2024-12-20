@@ -1,0 +1,19 @@
+name: "CI / Library JS Feature"
+
+on:
+  workflow_call:
+
+jobs:
+  check-lint:
+    name: "Check / Lint"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/matrixai/github-runner
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run linting
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run lint
+          '
+
