@@ -52,6 +52,8 @@ jobs:
   check-build:
     name: "Check / Build"
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/matrixai/github-runner
     steps:
       - uses: actions/checkout@v4
       - name: Run build
