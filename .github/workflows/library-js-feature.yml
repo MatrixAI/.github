@@ -1,0 +1,80 @@
+name: "CI / Library JS Feature"
+
+on:
+  workflow_call:
+
+jobs:
+  # Lint the code
+  check-lint:
+    name: "Check / Lint"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/matrixai/github-runner
+    permissions:
+      packages: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run linting
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run lint
+          '
+
+  # Test the code
+  check-test:
+    name: "Check / Test"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/matrixai/github-runner
+    permissions:
+      packages: read
+      contents: read
+      actions: write
+      checks: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run test -- --ci --coverage
+          '
+      - name: Upload JUnit report
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report
+          path: tmp/junit/junit.xml
+      - name: Publish JUnit Report
+        uses: mikepenz/action-junit-report@v5
+        with:
+          report_paths: tmp/junit/junit.xml
+      - name: Upload Cobertura report
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: tmp/coverage/cobertura-coverage.xml
+
+  # Build the code
+  check-build:
+    name: "Check / Build"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/matrixai/github-runner
+    permissions:
+      packages: read
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run build
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run build --verbose
+          '
+      - name: Upload Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: ./dist
