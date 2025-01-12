@@ -1,0 +1,58 @@
+name: "CI / Application JS Cloudflare Feature Closed"
+
+on:
+  workflow_call:
+    inputs:
+      appName:
+        type: string
+        required: true
+      appHostname:
+        type: string
+        required: true
+      featureBranch:
+        type: string
+        required: true
+    secrets:
+      NIXPKGS_PRIVATE_PAT:
+        required: true
+      CLOUDFLARE_ACCOUNT_ID:
+        required: true
+      CLOUDFLARE_ZONE_ID:
+        required: true
+      CLOUDFLARE_API_TOKEN:
+        required: true
+
+jobs:
+  feature-closed-deployment-stop:
+    name: "Feature Closed / Deployment Stop"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/matrixai/github-runner
+    concurrency:
+      group: feature-closed-deployment-stop
+      cancel-in-progress: false
+    # Only run if the PR head is a feature branch
+    # This means the feature branch PR is closed
+    if: startsWith(inputs.featureBranch, 'feature')
+    permissions:
+      packages: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Stop Deployment
+        env:
+          NIX_CONFIG: access-tokens = github.com=${{ secrets.NIXPKGS_PRIVATE_PAT }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          APP_NAME: ${{ inputs.appName }}
+          APP_HOSTNAME: ${{ inputs.appHostname }}
+          FEATURE_BRANCH: ${{ inputs.featureBranch }}
+        run: |
+          echo 'Perform service undeployment for feature'
+          nix develop .#ci --command bash -c $'
+          wrangler delete --name "$APP_NAME-dev-$FEATURE_BRANCH" --force
+          ./scripts/certs-gc.sh "$FEATURE_BRANCH.dev.$APP_HOSTNAME"
+          '
