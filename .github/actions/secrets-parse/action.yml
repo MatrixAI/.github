@@ -1,0 +1,44 @@
+name: Secrets Bundle Parse
+description: |
+  Parses a secrets bundle and exports each secret as an environment variable.
+  Requires `jq`.
+
+inputs:
+  secrets:
+    required: true
+    description: |
+      Secret bundle created by block scalar `|` and `toJSON` which is used to
+      encode each secret into 1 line, allowing line-based separation per secret.
+
+      SECRETS: |
+        SECRET1=\$\{\{ toJSON(secrets.SECRET1) \}\}
+        SECRET2=\$\{\{ toJSON(secrets.SECRET2) \}\}
+        SECRET3=\$\{\{ toJSON(secrets.SECRET3) \}\}
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        SECRETS: ${{ inputs.secrets }}
+      run: |
+        if ! type jq &> /dev/null; then
+          echo 'jq is not installed. Please install jq to proceed.'
+          exit 1
+        fi
+        delimiter="EOF-$RANDOM"
+        while IFS= read -r line; do
+          if [ -z "$line" ]; then
+            continue
+          fi
+          key="${line%%=*}"
+          json_value="${line#*=}"
+          value="$(jq -r '.' <<< "$json_value")"
+          # Mask the value (possibly multiline) from the logs 
+          while IFS= read -r line; do printf "::add-mask::%s\n" "$line"; done <<< "$value"
+          {
+            printf "%s<<%s\n" "$key" "$delimiter"
+            printf "%s\n" "$value"
+            printf "%s\n" "$delimiter"
+          } >> "$GITHUB_ENV"
+        done <<< "$SECRETS"
