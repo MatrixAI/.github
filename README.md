@@ -1,5 +1,7 @@
 # Templates
 
+## Issues, Pull Requests, Merge Requests
+
 This repository stories issue, pull request and merge request templates for Matrix AI
 
 GitHub templates are stored in `.github`. This repository must be placed under https://github.com/MatrixAI/.github. The `.github` repository name is essential for GitHub to recognise it as a special organisation-template repository.
@@ -19,10 +21,15 @@ are grouped together into different kinds of projects.
   - feature - for feature branches
   - staging - for staging branches
   - tag - for tag branches
-* library-js-native - TS/JS projets that produce libraries using native code as NPM packages.
+* library-js-native - TS/JS projects that produce libraries using native code as NPM packages.
   - feature
   - staging
   - tag
+* application-js-cloudflare - TS/JS projects that produce Cloudflare applications
+  - feature
+  - staging
+  - master
+  - feature-closed
 
 To use them, for example in a library-js project. You create 3 caller workflows
 in `/.github/workflows`:
