@@ -32,7 +32,10 @@ runs:
         echo "NIX_SSL_CERT_FILE=$CACERT/etc/ssl/certs/ca-bundle.crt" >> "$GITHUB_ENV"
       shell: bash
       env:
-        INPUT_EXTRA_NIX_CONFIG: ${{ inputs.extra_nix_config }}
+        INPUT_EXTRA_NIX_CONFIG: |
+          ${{ inputs.extra_nix_config }}
+          substituters = s3://matrix-ai-nix-cache?profile=matrix-nix-cache&region=ap-southeast-2 https://cache.nixos.org/
+          trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= matrix-ai-nix-cache:yhxzASVutUGCY2o/U4jkiNVj06M6Fi1h94LiC5TkYBg=
         INPUT_GITHUB_ACCESS_TOKEN: ${{ inputs.github_access_token }}
         INPUT_INSTALL_OPTIONS: ${{ inputs.install_options }}
         INPUT_INSTALL_URL: ${{ inputs.install_url }}
