@@ -26,8 +26,6 @@ jobs:
   feature-closed-deployment-stop:
     name: "Feature Closed / Deployment Stop"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     concurrency:
       group: feature-closed-deployment-stop
       cancel-in-progress: false
@@ -35,12 +33,12 @@ jobs:
     # This means the feature branch PR is closed
     if: startsWith(inputs.featureBranch, 'feature')
     permissions:
-      packages: read
       contents: read
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: true
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Stop Deployment
         env:
           NIX_CONFIG: access-tokens = github.com=${{ secrets.NIXPKGS_PRIVATE_PAT }}

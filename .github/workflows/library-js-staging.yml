@@ -19,13 +19,11 @@ jobs:
   staging-lint:
     name: "Staging / Lint"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
     steps:
       - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run linting
         run: |
           nix develop .#ci --command bash -c $'
@@ -37,7 +35,6 @@ jobs:
     name: "Staging / Merge Begin"
     runs-on: ubuntu-latest
     permissions:
-      packages: read
       contents: read
       pull-requests: write
     steps:
@@ -62,14 +59,12 @@ jobs:
   staging-build:
     name: "Staging / Build"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
       actions: write
     steps:
       - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run build
         run: |
           nix develop .#ci --command bash -c $'
@@ -88,10 +83,7 @@ jobs:
     needs:
       - staging-build
     runs-on: ${{ matrix.os }}
-    container:
-      image: ${{ matrix.platform == 'linux' && 'ghcr.io/matrixai/github-runner' || null }}
     permissions:
-      packages: read
       contents: read
       actions: write
       checks: write
@@ -133,6 +125,8 @@ jobs:
               npm run bench --if-present
     steps:
       - uses: actions/checkout@v4
+      - if: matrix.platform == 'linux'
+        uses: MatrixAI/.github/.github/actions/install-nix@master
       - uses: actions/download-artifact@v4
         with:
           name: dist
@@ -177,7 +171,6 @@ jobs:
       group: staging-merge-finish
       cancel-in-progress: true
     permissions:
-      packages: read
       contents: write
       pull-requests: write
     steps:

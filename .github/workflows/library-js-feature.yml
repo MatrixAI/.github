@@ -8,13 +8,11 @@ jobs:
   feature-lint:
     name: "Feature / Lint"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
     steps:
       - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run linting
         run: |
           nix develop .#ci --command bash -c $'
@@ -25,14 +23,12 @@ jobs:
   feature-build:
     name: "Feature / Build"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
       actions: write
     steps:
       - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run build
         run: |
           nix develop .#ci --command bash -c $'
@@ -48,15 +44,13 @@ jobs:
   feature-test:
     name: "Feature / Test"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
       actions: write
       checks: write
     steps:
       - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run tests
         run: |
           nix develop .#ci --command bash -c $'
@@ -83,14 +77,12 @@ jobs:
   feature-bench:
     name: "Feature / Bench"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/matrixai/github-runner
     permissions:
-      packages: read
       contents: read
       actions: write
     steps:
       - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/install-nix@master
       - name: Run bench
         run: |
           nix develop .#ci --command bash -c $'
