@@ -12,7 +12,7 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - uses: MatrixAI/.github/.github/actions/install-nix@master
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run linting
         run: |
           nix develop .#ci --command bash -c $'
@@ -28,7 +28,7 @@ jobs:
       actions: write
     steps:
       - uses: actions/checkout@v4
-      - uses: MatrixAI/.github/.github/actions/install-nix@master
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run build
         run: |
           nix develop .#ci --command bash -c $'
@@ -50,7 +50,7 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@v4
-      - uses: MatrixAI/.github/.github/actions/install-nix@master
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run tests
         run: |
           nix develop .#ci --command bash -c $'
@@ -82,7 +82,7 @@ jobs:
       actions: write
     steps:
       - uses: actions/checkout@v4
-      - uses: MatrixAI/.github/.github/actions/install-nix@master
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run bench
         run: |
           nix develop .#ci --command bash -c $'

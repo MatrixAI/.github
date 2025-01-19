@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
-      - uses: MatrixAI/.github/.github/actions/install-nix@master
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run build
         env:
           NIX_CONFIG: access-tokens = github.com=${{ secrets.NIXPKGS_PRIVATE_PAT }}
@@ -59,7 +59,7 @@ jobs:
           repository: MatrixAI/.github
           ref: ${{ inputs.ref }}
           path: tmp/.github
-      - uses: MatrixAI/.github/.github/actions/install-nix@master
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Parse Secrets
         uses: ./tmp/.github/.github/actions/secrets-parse
         with:

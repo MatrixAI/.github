@@ -8,7 +8,7 @@ fi
 
 if [[ ($OSTYPE =~ linux) && ($INPUT_ENABLE_KVM == 'true') ]]; then
   enable_kvm() {
-    echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-install-nix-action-kvm.rules
+    echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-matrixai-env-setup-action-kvm.rules
     sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
   }
 
@@ -114,7 +114,7 @@ if [[ -n "${INPUT_NIX_PATH:-}" ]]; then
   echo "NIX_PATH=${INPUT_NIX_PATH}" >> "$GITHUB_ENV"
 fi
 
-# Set temporary directory (if not already set) to fix https://github.com/cachix/install-nix-action/issues/197
+# Set temporary directory (if not already set) to fix https://github.com/cachix/matrixai-env-setup-action/issues/197
 if [[ -z "${TMPDIR:-}" ]]; then
   echo "TMPDIR=${RUNNER_TEMP}" >> "$GITHUB_ENV"
 fi

@@ -1,6 +1,5 @@
-name: 'Install Nix'
+name: 'MatrixAI Environment Setup'
 description: 'Installs Nix on GitHub Actions for the supported platforms: Linux and macOS.'
-author: 'Domen Kožar'
 inputs:
   extra_nix_config:
     description: 'Gets appended to `/etc/nix/nix.conf` if passed.'
@@ -16,14 +15,11 @@ inputs:
     description: 'Enable KVM for hardware-accelerated virtualization on Linux, if available.'
     required: false
     default: true
-branding:
-  color: 'blue'
-  icon: 'sun'
 runs:
   using: 'composite'
   steps:
     - run: |
-        ${GITHUB_ACTION_PATH}/install-nix.sh
+        ${GITHUB_ACTION_PATH}/matrixai-env-setup.sh
       shell: bash
       env:
         INPUT_EXTRA_NIX_CONFIG: |
