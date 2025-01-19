@@ -24,12 +24,6 @@ runs:
   steps:
     - run: |
         ${GITHUB_ACTION_PATH}/install-nix.sh
-        nix profile install nixpkgs#cacert nixpkgs#tzdata
-        TZDATA=$(nix eval --raw nixpkgs#tzdata.outPath)
-        CACERT=$(nix eval --raw nixpkgs#cacert.outPath)
-        echo "TZDIR=$TZDATA/share/zoneinfo" >> "$GITHUB_ENV"
-        echo "GIT_SSL_CAINFO=$CACERT/etc/ssl/certs/ca-bundle.crt" >> "$GITHUB_ENV"
-        echo "NIX_SSL_CERT_FILE=$CACERT/etc/ssl/certs/ca-bundle.crt" >> "$GITHUB_ENV"
       shell: bash
       env:
         INPUT_EXTRA_NIX_CONFIG: |
@@ -42,3 +36,12 @@ runs:
         INPUT_NIX_PATH: ${{ inputs.nix_path }}
         INPUT_ENABLE_KVM: ${{ inputs.enable_kvm }}
         GITHUB_TOKEN: ${{ github.token }}
+    - run: |
+        nix profile install nixpkgs#cacert nixpkgs#tzdata
+        TZDATA=$(nix eval --raw nixpkgs#tzdata.outPath)
+        CACERT=$(nix eval --raw nixpkgs#cacert.outPath)
+        echo "TZDIR=$TZDATA/share/zoneinfo" >> "$GITHUB_ENV"
+        echo "GIT_SSL_CAINFO=$CACERT/etc/ssl/certs/ca-bundle.crt" >> "$GITHUB_ENV"
+        echo "NIX_SSL_CERT_FILE=$CACERT/etc/ssl/certs/ca-bundle.crt" >> "$GITHUB_ENV"
+      shell: bash
+        
