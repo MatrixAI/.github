@@ -82,6 +82,7 @@ else
   sudo mkdir -p /etc/nix
   sudo chmod 0755 /etc/nix
   sudo cp "$workdir/nix.conf" /etc/nix/nix.conf
+  sudo cp "$workdir/registry.json" /etc/nix/registry.json
 fi
 
 if [[ -n "${INPUT_INSTALL_OPTIONS:-}" ]]; then
