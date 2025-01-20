@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Create Pull Request from Staging to Master
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr create \
             --head staging \
@@ -155,7 +155,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - name: Merge Pull Request from Staging to Master
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_AUTHOR_EMAIL: ${{ secrets.GIT_AUTHOR_EMAIL }}
           GIT_AUTHOR_NAME: ${{ secrets.GIT_AUTHOR_NAME }}
           GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
