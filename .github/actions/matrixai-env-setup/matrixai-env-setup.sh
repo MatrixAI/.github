@@ -119,11 +119,14 @@ if [[ -z "${TMPDIR:-}" ]]; then
   echo "TMPDIR=${RUNNER_TEMP}" >> "$GITHUB_ENV"
 fi
 
-if [[ -f "./registry.json" ]]; then
-  sudo cp "./registry.json" /etc/nix/registry.json
-  echo "Installed registry.json"
+REGISTRY_JSON_PATH=".github/actions/matrixai-env-setup/registry.json"
+
+if [[ -f "$REGISTRY_JSON_PATH" ]]; then
+  sudo cp "$REGISTRY_JSON_PATH" /etc/nix/registry.json
+  echo "registry.json has been copied to /etc/nix/registry.json"
 else
-  echo "Warning: registry.json file not found in dir. Skipping registry injection."
+  echo "Error: registry.json not found at $REGISTRY_JSON_PATH"
+  exit 1
 fi
 
 # Close the log message group which was opened above
