@@ -82,7 +82,12 @@ else
   sudo mkdir -p /etc/nix
   sudo chmod 0755 /etc/nix
   sudo cp "$workdir/nix.conf" /etc/nix/nix.conf
-  sudo cp "$workdir/registry.json" /etc/nix/registry.json
+  if [[ -f "$workdir/registry.json" ]]; then
+    sudo cp "$workdir/registry.json" /etc/nix/registry.json
+    echo "Installed registry.json"
+  else
+    echo "Warning: registry.json file not found in $workdir. Skipping registry injection."
+  fi
 fi
 
 if [[ -n "${INPUT_INSTALL_OPTIONS:-}" ]]; then
