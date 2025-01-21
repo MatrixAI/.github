@@ -82,12 +82,6 @@ else
   sudo mkdir -p /etc/nix
   sudo chmod 0755 /etc/nix
   sudo cp "$workdir/nix.conf" /etc/nix/nix.conf
-  if [[ -f "$workdir/registry.json" ]]; then
-    sudo cp "$workdir/registry.json" /etc/nix/registry.json
-    echo "Installed registry.json"
-  else
-    echo "Warning: registry.json file not found in $workdir. Skipping registry injection."
-  fi
 fi
 
 if [[ -n "${INPUT_INSTALL_OPTIONS:-}" ]]; then
@@ -123,6 +117,13 @@ fi
 # Set temporary directory (if not already set) to fix https://github.com/cachix/matrixai-env-setup-action/issues/197
 if [[ -z "${TMPDIR:-}" ]]; then
   echo "TMPDIR=${RUNNER_TEMP}" >> "$GITHUB_ENV"
+fi
+
+if [[ -f "$workdir/registry.json" ]]; then
+  sudo cp "$workdir/registry.json" /etc/nix/registry.json
+  echo "Installed registry.json"
+else
+  echo "Warning: registry.json file not found in $workdir. Skipping registry injection."
 fi
 
 # Close the log message group which was opened above
