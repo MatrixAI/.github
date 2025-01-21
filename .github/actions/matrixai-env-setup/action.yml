@@ -56,8 +56,8 @@ runs:
         GITHUB_TOKEN: ${{ github.token }}
     - run: |
         nix profile install nixpkgs-matrix#cacert nixpkgs-matrix#tzdata
-        TZDATA=$(nix eval --raw nixpkgs#tzdata.outPath)
-        CACERT=$(nix eval --raw nixpkgs#cacert.outPath)
+        TZDATA=$(nix eval --raw nixpkgs-matrix#tzdata.outPath)
+        CACERT=$(nix eval --raw nixpkgs-matrix#cacert.outPath)
         echo "TZDIR=$TZDATA/share/zoneinfo" >> "$GITHUB_ENV"
         echo "GIT_SSL_CAINFO=$CACERT/etc/ssl/certs/ca-bundle.crt" >> "$GITHUB_ENV"
         echo "NIX_SSL_CERT_FILE=$CACERT/etc/ssl/certs/ca-bundle.crt" >> "$GITHUB_ENV"
