@@ -122,10 +122,6 @@ fi
 if [[ -n "${INPUT_REGISTRY:-}" ]]; then
   # Output the INPUT_REGISTRY variable contents to /etc/nix/registry.json
   echo "$INPUT_REGISTRY" | sudo tee /etc/nix/registry.json > /dev/null
-  echo "Contents of INPUT_REGISTRY have been written to /etc/nix/registry.json"
-else
-  echo "Error: INPUT_REGISTRY is not set. Cannot create /etc/nix/registry.json"
-  exit 1
 fi
 
 # Close the log message group which was opened above
