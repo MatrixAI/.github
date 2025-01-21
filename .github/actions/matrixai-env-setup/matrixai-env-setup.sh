@@ -119,11 +119,11 @@ if [[ -z "${TMPDIR:-}" ]]; then
   echo "TMPDIR=${RUNNER_TEMP}" >> "$GITHUB_ENV"
 fi
 
-if [[ -f "$workdir/registry.json" ]]; then
-  sudo cp "$workdir/registry.json" /etc/nix/registry.json
+if [[ -f "./registry.json" ]]; then
+  sudo cp "./registry.json" /etc/nix/registry.json
   echo "Installed registry.json"
 else
-  echo "Warning: registry.json file not found in $workdir. Skipping registry injection."
+  echo "Warning: registry.json file not found in dir. Skipping registry injection."
 fi
 
 # Close the log message group which was opened above
