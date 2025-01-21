@@ -119,16 +119,12 @@ if [[ -z "${TMPDIR:-}" ]]; then
   echo "TMPDIR=${RUNNER_TEMP}" >> "$GITHUB_ENV"
 fi
 
-REGISTRY_JSON_PATH=".github/actions/matrixai-env-setup/registry.json"
-
-ls -la
-pwd
-
-if [[ -f "$REGISTRY_JSON_PATH" ]]; then
-  sudo cp "$REGISTRY_JSON_PATH" /etc/nix/registry.json
-  echo "registry.json has been copied to /etc/nix/registry.json"
+if [[ -n "${INPUT_REGISTRY:-}" ]]; then
+  # Output the INPUT_REGISTRY variable contents to /etc/nix/registry.json
+  echo "$INPUT_REGISTRY" | sudo tee /etc/nix/registry.json > /dev/null
+  echo "Contents of INPUT_REGISTRY have been written to /etc/nix/registry.json"
 else
-  echo "Error: registry.json not found at $REGISTRY_JSON_PATH"
+  echo "Error: INPUT_REGISTRY is not set. Cannot create /etc/nix/registry.json"
   exit 1
 fi
 
