@@ -61,8 +61,5 @@ runs:
         echo "TZDIR=$TZDATA/share/zoneinfo" >> "$GITHUB_ENV"
         echo "GIT_SSL_CAINFO=$CACERT/etc/ssl/certs/ca-bundle.crt" >> "$GITHUB_ENV"
         echo "NIX_SSL_CERT_FILE=$CACERT/etc/ssl/certs/ca-bundle.crt" >> "$GITHUB_ENV"
-        ls -l $CACERT/etc/ssl/certs/ca-bundle.crt
-        sudo chmod 644 $CACERT/etc/ssl/certs/ca-bundle.crt
-        ls -l $CACERT/etc/ssl/certs/ca-bundle.crt
       shell: bash
         
