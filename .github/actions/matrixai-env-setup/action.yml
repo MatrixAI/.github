@@ -33,8 +33,8 @@ runs:
                 "exact": true,
                 "from": { "id": "nixpkgs", "type": "indirect" },
                 "to": {
-                  "path": "/etc/nixpkgs",
-                  "type": "path"
+                  "path": "https://github.com/NixOS/nixpkgs",
+                  "type": "url"
                 }
               },
               {
