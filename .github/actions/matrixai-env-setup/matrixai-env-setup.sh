@@ -121,6 +121,9 @@ fi
 
 REGISTRY_JSON_PATH=".github/actions/matrixai-env-setup/registry.json"
 
+ls -la
+pwd
+
 if [[ -f "$REGISTRY_JSON_PATH" ]]; then
   sudo cp "$REGISTRY_JSON_PATH" /etc/nix/registry.json
   echo "registry.json has been copied to /etc/nix/registry.json"
