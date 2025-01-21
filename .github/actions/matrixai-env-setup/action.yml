@@ -31,14 +31,6 @@ runs:
             "flakes": [
               {
                 "exact": true,
-                "from": { "id": "nixpkgs", "type": "indirect" },
-                "to": {
-                  "path": "https://github.com/NixOS/nixpkgs",
-                  "type": "url"
-                }
-              },
-              {
-                "exact": true,
                 "from": { "id": "nixpkgs-matrix", "type": "indirect" },
                 "to": {
                   "path": "https://github.com/MatrixAI/nixpkgs-matrix",
@@ -63,7 +55,7 @@ runs:
         INPUT_ENABLE_KVM: ${{ inputs.enable_kvm }}
         GITHUB_TOKEN: ${{ github.token }}
     - run: |
-        nix profile install nixpkgs#cacert nixpkgs#tzdata
+        nix profile install nixpkgs-matrix#cacert nixpkgs-matrix#tzdata
         TZDATA=$(nix eval --raw nixpkgs#tzdata.outPath)
         CACERT=$(nix eval --raw nixpkgs#cacert.outPath)
         echo "TZDIR=$TZDATA/share/zoneinfo" >> "$GITHUB_ENV"
