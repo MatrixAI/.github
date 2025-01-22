@@ -69,7 +69,7 @@ jobs:
       - name: Run build
         run: |
           nix develop .#ci --command bash -c $'
-          npm run build --verbose
+          npm run build --ignore-scripts --verbose
           '
       - name: Upload Build
         uses: actions/upload-artifact@v4
