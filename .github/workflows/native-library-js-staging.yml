@@ -116,7 +116,9 @@ jobs:
               npm run bench --if-present
           - platform: macos
             os: macos-latest
-            env: {}
+            env:
+              npm_config_devdir: "${{ github.workspace }}/tmp/node-gyp"
+              npm_config_arch: 'x64+arm64'
             script: |
               mkdir -p "$CI_PROJECT_DIR/tmp"
               eval "$(brew shellenv)"
