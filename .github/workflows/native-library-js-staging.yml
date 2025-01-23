@@ -28,7 +28,6 @@ jobs:
         run: |
           nix develop .#ci --command bash -c $'
           npm run lint
-          npm run lint-native
           npm run lint-shell
           '
 
