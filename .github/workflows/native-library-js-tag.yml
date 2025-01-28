@@ -53,6 +53,7 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ./.npmrc
           nix develop .#ci --command bash -c $'
+          npm run prebuild --verbose
           npm publish --tag prerelease --access public
           '
       - name: Remove `.npmrc`
@@ -85,6 +86,7 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ./.npmrc
           nix develop .#ci --command bash -c $'
+          npm run prebuild --verbose
           npm publish --access public
           '
       - name: Remove `.npmrc`
