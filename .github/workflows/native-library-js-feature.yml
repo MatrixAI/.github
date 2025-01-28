@@ -1,0 +1,96 @@
+name: "CI / Library JS Feature"
+
+on:
+  workflow_call:
+
+jobs:
+  # Lint the code
+  feature-lint:
+    name: "Feature / Lint"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - name: Run linting
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run lint
+          '
+
+  # Build the dist
+  feature-build:
+    name: "Feature / Build"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - name: Run build
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run build --verbose
+          '
+      - name: Upload Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: ./dist
+
+  # Test the dist
+  feature-test:
+    name: "Feature / Test"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+      checks: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - name: Run tests
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run test -- --ci --coverage
+          '
+      - name: Upload JUnit report
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report
+          path: tmp/junit/junit.xml
+      - name: Publish JUnit Report
+        uses: mikepenz/action-junit-report@v5
+        with:
+          report_paths: tmp/junit/junit.xml
+      - name: Upload Cobertura report
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: tmp/coverage/cobertura-coverage.xml
+
+  # Bench the dist
+  feature-bench:
+    name: "Feature / Bench"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - name: Run bench
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run bench --if-present
+          '
+      - name: Upload Bench
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-report
+          path: ./benches/results/metrics.txt
+          if-no-files-found: ignore

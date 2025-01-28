@@ -1,0 +1,93 @@
+name: "CI / Library JS Tag"
+
+on:
+  workflow_call:
+    secrets:
+      NPM_TOKEN:
+        required: true
+
+jobs:
+  # Build the distribution - JS is platform-agnostic
+  tag-build:
+    name: "Tag / Build"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - name: Run build
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run build --verbose
+          '
+      - name: Upload Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: ./dist
+
+  # Publish the prerelease
+  tag-prerelease:
+    name: "Tag / Pre-release"
+    runs-on: ubuntu-latest
+    concurrency:
+      group: tag-prerelease
+      cancel-in-progress: false
+    needs:
+      - tag-build
+    permissions:
+      contents: read
+    if: startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: ./dist
+      - name: Publishing library prerelease
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ./.npmrc
+          nix develop .#ci --command bash -c $'
+          npm publish --tag prerelease --access public
+          '
+      - name: Remove `.npmrc`
+        if: success() || failure()
+        run: |
+          rm -f ./.npmrc
+
+  # Publish the release
+  tag-release:
+    name: "Tag / Release"
+    runs-on: ubuntu-latest
+    concurrency:
+      group: tag-release
+      cancel-in-progress: false
+    needs:
+      - tag-build
+    permissions:
+      contents: read
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: ./dist
+      - name: Publishing library release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ./.npmrc
+          nix develop .#ci --command bash -c $'
+          npm publish --access public
+          '
+      - name: Remove `.npmrc`
+        if: success() || failure()
+        run: |
+          rm -f ./.npmrc
