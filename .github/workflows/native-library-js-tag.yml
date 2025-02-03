@@ -105,6 +105,8 @@ jobs:
               npm run bench
     steps:
       - uses: actions/checkout@v4
+      - if: matrix.platform == 'linux'
+        uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
