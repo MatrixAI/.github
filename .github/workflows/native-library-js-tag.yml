@@ -149,7 +149,6 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ./.npmrc
           nix develop .#ci --command bash -c $'
-          npm run prebuild --verbose
           npm publish --tag prerelease --access public
           '
           for d in prebuild/*; do
@@ -201,7 +200,6 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ./.npmrc
           nix develop .#ci --command bash -c $'
-          npm run prebuild --verbose
           npm publish --access public
           '
           for d in prebuild/*; do
