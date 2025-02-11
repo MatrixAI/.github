@@ -61,10 +61,6 @@ jobs:
         with:
           lfs: true
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
-      - uses: actions/download-artifact@v4
-        with:
-          name: public
-          path: ./public
       - name: Setup Deploy Secrets
         run: |
           echo "${{ inputs.DEPLOY_SECRETS }}" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
