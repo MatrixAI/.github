@@ -55,7 +55,7 @@ runs:
         INPUT_ENABLE_KVM: ${{ inputs.enable_kvm }}
         GITHUB_TOKEN: ${{ github.token }}
     - run: |
-        nix profile install nixpkgs-matrix#cacert nixpkgs-matrix#tzdata
+        nix profile install nixpkgs-matrix#cacert nixpkgs-matrix#tzdata nixpkgs-matrix#polykey-cli
         TZDATA=$(nix eval --raw nixpkgs-matrix#tzdata.outPath)
         CACERT=$(nix eval --raw nixpkgs-matrix#cacert.outPath)
         echo "TZDIR=$TZDATA/share/zoneinfo" >> "$GITHUB_ENV"
