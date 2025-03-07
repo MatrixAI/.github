@@ -2,6 +2,9 @@ name: "CI / Application JS Feature"
 
 on:
   workflow_call:
+    secrets:
+      NIXPKGS_PRIVATE_PAT:
+        required: true
 
 jobs:
   # Lint the code
@@ -14,6 +17,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run linting
+        env:
+          NIX_CONFIG: access-tokens = github.com=${{ secrets.NIXPKGS_PRIVATE_PAT }}
         run: |
           nix develop .#ci --command bash -c $'
           npm run lint
@@ -29,6 +34,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Dry run
+        env:
+          NIX_CONFIG: access-tokens = github.com=${{ secrets.NIXPKGS_PRIVATE_PAT }}
         run: |
           nix build .#default --dry-run
           nix build .#docker --dry-run
