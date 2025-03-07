@@ -1,0 +1,35 @@
+name: "CI / Application JS Feature"
+
+on:
+  workflow_call:
+
+jobs:
+  # Lint the code
+  feature-lint:
+    name: "Feature / Lint"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - name: Run linting
+        run: |
+          nix develop .#ci --command bash -c $'
+          npm run lint
+          '
+
+  # Run a dry run
+  feature-dry:
+    name: "Feature / Dry Run"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - name: Dry run
+        run: |
+          nix build .#default --dry-run
+          nix build .#docker --dry-run
+
