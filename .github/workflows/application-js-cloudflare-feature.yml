@@ -3,6 +3,10 @@ name: "CI / Application JS Cloudflare Feature"
 on:
   workflow_call:
     inputs:
+      environment:
+        description: 'Deployment Environment'
+        type: environment
+        required: true
       ref:
         type: string
         default: master
@@ -26,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,6 +51,7 @@ jobs:
     permissions:
       contents: read
       actions: write
+    environment: ${{ inputs.environment }}
     steps:
       - name: Checkout Actions
         uses: actions/checkout@v4
@@ -85,6 +91,7 @@ jobs:
     concurrency:
       group: feature-deployment
       cancel-in-progress: false
+    environment: ${{ inputs.environment }}
     steps:
       - name: Checkout Actions
         uses: actions/checkout@v4
