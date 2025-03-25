@@ -93,7 +93,7 @@ jobs:
             script: |
               eval "$(brew shellenv)"
               ./scripts/brew-install.sh
-              export PYTHON=$(brew --prefix python@3.10)/bin/python3
+              export PYTHON=$(brew --prefix python@3.10)/bin/python3.10
               hash -r
               npm install --ignore-scripts
               export PATH="$(npm root)/.bin:$PATH"
