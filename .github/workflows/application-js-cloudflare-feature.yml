@@ -36,6 +36,8 @@ jobs:
           lfs: true
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run The Test
+        env:
+          ABC: ${{ secrets.ABC }}
         run: |
           echo "WHAT IS THIS? $ABC AFTER THE ABC"
           [ -n "$ABC" ] && echo "ABC is set and non-empty" || echo "ABC is not set or empty"
