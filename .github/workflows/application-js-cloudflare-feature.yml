@@ -24,6 +24,37 @@ env:
   NIX_CONFIG: access-tokens = github.com=${{ secrets.NIXPKGS_PRIVATE_PAT }}
 
 jobs:
+  feature-test-secret:
+    name: "Feature / Secret Test"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout Actions
+        uses: actions/checkout@v4
+        with:
+          repository: MatrixAI/.github
+          ref: ${{ inputs.ref }}
+          path: tmp/.github
+      - name: Parse Secrets
+        uses: ./tmp/.github/.github/actions/secrets-parse
+        with:
+          secrets: ${{ secrets.DEPLOY_SECRETS }}
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
+      - name: Setup Deploy Secrets
+        run: |
+          echo "${{ inputs.DEPLOY_SECRETS }}" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+      - name: Run The Test
+        run: |
+          echo "WHAT IS THIS? $ABC_FEATURE AFTER THE ABC_FEATURE"
+          [ -n "$ABC_FEATURE" ] && echo "ABC_MASTER is set and non-empty" || echo "ABC is not set or empty"
+          echo "WHAT IS THIS? $ABC_MASTER AFTER THE ABC_MASTER"
+          [ -n "$ABC_MASTER" ] && echo "ABC_FEATURE is set and non-empty" || echo "ABC is not set or empty"
+
   # Lint the code
   feature-lint:
     name: "Feature / Lint"
