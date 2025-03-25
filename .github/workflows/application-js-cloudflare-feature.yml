@@ -54,6 +54,10 @@ jobs:
           [ -n "$ABC_FEATURE" ] && echo "ABC_MASTER is set and non-empty" || echo "ABC is not set or empty"
           echo "WHAT IS THIS? $ABC_MASTER AFTER THE ABC_MASTER"
           [ -n "$ABC_MASTER" ] && echo "ABC_FEATURE is set and non-empty" || echo "ABC is not set or empty"
+          [ "$ABC_MASTER" = "xxx" ] && echo 'ABC_MASTER is xxx'
+          [ "$ABC_MASTER" = "yyy" ] && echo 'ABC_MASTER is yyy'
+          [ "$ABC_FEATURE" = "xxx" ] && echo 'ABC_FEATURE is xxx'
+          [ "$ABC_FEATURE" = "yyy" ] && echo 'ABC_FEATURE is yyy'
 
   # Lint the code
   feature-lint:
