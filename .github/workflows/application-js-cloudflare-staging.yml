@@ -5,7 +5,7 @@ on:
     inputs:
       environment:
         description: 'Deployment Environment'
-        type: environment
+        type: string
         required: true
       ref:
         type: string
