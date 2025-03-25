@@ -29,7 +29,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    environment: ${{ inputs.environment }}
     steps:
       - name: Checkout Actions
         uses: actions/checkout@v4
