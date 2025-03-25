@@ -23,6 +23,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run linting
         run: |
@@ -40,6 +42,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
       - name: Create Pull Request from Staging to Master
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,6 +68,8 @@ jobs:
       actions: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run build
         run: |
@@ -129,6 +135,8 @@ jobs:
               npm run bench --if-present
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
       - if: matrix.platform == 'linux'
         uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - uses: actions/download-artifact@v4
@@ -181,6 +189,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          submodules: 'recursive'
           token: ${{ secrets.GH_TOKEN }}
       - name: Merge Pull Request from Staging to Master
         env:

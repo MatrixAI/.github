@@ -12,6 +12,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run linting
         run: |
@@ -28,6 +30,8 @@ jobs:
       actions: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run build
         run: |
@@ -50,6 +54,8 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run tests
         run: |
@@ -82,6 +88,8 @@ jobs:
       actions: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
       - uses: MatrixAI/.github/.github/actions/matrixai-env-setup@master
       - name: Run bench
         run: |
