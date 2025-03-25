@@ -3,6 +3,10 @@ name: "CI / Application JS Cloudflare Feature Closed"
 on:
   workflow_call:
     inputs:
+      environment:
+        description: 'Deployment Environment'
+        type: environment
+        required: true
       appName:
         type: string
         required: true
@@ -34,6 +38,7 @@ jobs:
     if: startsWith(inputs.featureBranch, 'feature')
     permissions:
       contents: read
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
         with:
