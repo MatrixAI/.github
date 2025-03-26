@@ -70,7 +70,7 @@ jobs:
               RUST_BACKTRACE: "1"
             script: |
               nix develop .#ci --command bash -c $'
-              npm run prebuild --verbose -- --production --output=prebuild
+              npm run prebuild --verbose -- --production
               npm test -- --ci --coverage
               npm run bench
               '
@@ -87,7 +87,7 @@ jobs:
               refreshenv
               npm install --ignore-scripts
               $env:Path = "$(npm root)\.bin;" + $env:Path
-              npm run prebuild --verbose -- --production --output=prebuild
+              npm run prebuild --verbose -- --production
               npm test -- --ci --coverage
               npm run bench
           - platform: macos
@@ -102,8 +102,8 @@ jobs:
               npm install --ignore-scripts
               export PATH="$(npm root)/.bin:$PATH"
               export PATH="$HOME/.cargo/bin:$PATH"
-              npm run prebuild --verbose -- --arch x64 --production --output=prebuild
-              npm run prebuild --verbose -- --arch arm64 --production --output=prebuild
+              npm run prebuild --verbose -- --arch x64 --production
+              npm run prebuild --verbose -- --arch arm64 --production
               lipo -create -output prebuild/quic-darwin-x64+arm64.node prebuild/quic-darwin-arm64.node prebuild/quic-darwin-x64.node
               rm -rf node_modules/@matrixai/quic-*
               npm test -- --ci --coverage
