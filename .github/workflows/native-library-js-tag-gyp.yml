@@ -92,6 +92,7 @@ jobs:
               npm run bench
           - platform: macos
             os: macos-latest
+            env: {}
             script: |
               eval "$(brew shellenv)"
               ./scripts/brew-install.sh
