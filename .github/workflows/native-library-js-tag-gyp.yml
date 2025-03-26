@@ -92,8 +92,6 @@ jobs:
               npm run bench
           - platform: macos
             os: macos-latest
-            env:
-              RUST_BACKTRACE: "1"
             script: |
               eval "$(brew shellenv)"
               ./scripts/brew-install.sh
@@ -101,11 +99,7 @@ jobs:
               hash -r
               npm install --ignore-scripts
               export PATH="$(npm root)/.bin:$PATH"
-              export PATH="$HOME/.cargo/bin:$PATH"
-              npm run prebuild --verbose -- --arch x64 --production
-              npm run prebuild --verbose -- --arch arm64 --production
-              lipo -create -output prebuilds/quic-darwin-x64+arm64.node prebuilds/quic-darwin-arm64.node prebuilds/quic-darwin-x64.node
-              rm -rf node_modules/@matrixai/quic-*
+              npm run prebuild --verbose -- --production
               npm test -- --ci --coverage
               npm run bench
     steps:
