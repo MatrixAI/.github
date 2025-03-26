@@ -94,7 +94,7 @@ jobs:
       actions: write
       checks: write
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - platform: linux
