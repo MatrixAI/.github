@@ -121,9 +121,6 @@ jobs:
           url: "https://${{ github.ref_name }}.dev.zeta.house"
         run: |
           echo 'Perform service deployment for feature'
-          echo "$SECRET1"
-          echo "$SECRET2"
-          echo "$SECRET3"
           nix develop .#ci --command bash -c $'
           npm run deploy -- \
             --feature "$GITHUB_REF_NAME" \
