@@ -102,16 +102,16 @@ jobs:
               npm install --ignore-scripts
               export PATH="$(npm root)/.bin:$PATH"
               export PATH="$HOME/.cargo/bin:$PATH"
+              echo "Prebuilding for darwin-x64"
               npm run prebuild --verbose -- --arch x64 --production
+              echo "Prebuilding for darwin-arm64"
               npm run prebuild --verbose -- --arch arm64 --production
-              echo "checking prebuild files"
-              ls prebuild
-              echo "checking lipo help"
-              lipo --help
-              echo "running lipo"
-              lipo -create -output prebuild/quic-darwin-x64+arm64.node prebuild/quic-darwin-arm64.node prebuild/quic-darwin-x64.node
-              rm -rf node_modules/@matrixai/quic-*
+              echo "Creating universal binary"
+              lipo -create -output prebuild/exec-darwin-x64+arm64.node prebuild/exec-darwin-arm64.node prebuild/exec-darwin-x64.node
+              rm -rf node_modules/@matrixai/exec-*
+              echo "Running tests"
               npm test -- --ci --coverage
+              echo "Running benchmarks"
               npm run bench
     steps:
       - uses: actions/checkout@v4
