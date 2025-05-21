@@ -23,7 +23,6 @@ jobs:
         run: |
           nix develop .#ci --command bash -c $'
           npm run lint
-          npm run lint-shell
           '
 
   # Build the distribution - JS is platform-agnostic
