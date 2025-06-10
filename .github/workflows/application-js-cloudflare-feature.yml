@@ -122,7 +122,5 @@ jobs:
         run: |
           echo 'Perform service deployment for feature'
           nix develop .#ci --command bash -c $'
-          npm run deploy -- \
-            --feature "$GITHUB_REF_NAME" \
-            --env "$GITHUB_REF_NAME"
+          npm run deploy -- --env "$GITHUB_REF_NAME"
           '
