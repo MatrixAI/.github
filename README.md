@@ -17,6 +17,19 @@ Ensure that this repository is mirrored from GitLab to GitHub.
 This is where we centralized re-usable workflows for GitHub actions. Workflows
 are grouped together into different kinds of projects.
 
+### Windows runners and Node.js
+
+On GitHub-hosted Windows runners it is common to have multiple Node versions on `PATH` (for example Node 22 may be preinstalled). If a workflow calls `refreshenv` / `Update-SessionEnvironment` after selecting Node, it can rebuild `PATH` and cause `npm.cmd` to come from a different Node installation than `node.exe`.
+
+To avoid the Node/npm mismatch:
+
+* Windows jobs are pinned to `windows-2022`.
+* Windows execution is split into two steps:
+  1. **Bootstrap** runs repo-local `./scripts/choco-install.ps1` and prints:
+     `where.exe node`, `where.exe npm`, `node -v`, `npm -v`, `npm exec --yes node -v`.
+  2. **Build/Test** runs npm commands in a separate step so `$GITHUB_PATH` updates from the bootstrap step are applied deterministically.
+* Reusable workflows in this repository do not use `actions/setup-node` for Windows; they delegate Node selection to the downstream repo’s `./scripts/choco-install.ps1`.
+
 * library-js - TS/JS projects that produce libraries as NPM packages.
   - feature - for feature branches
   - staging - for staging branches
