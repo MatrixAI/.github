@@ -88,7 +88,7 @@ jobs:
           where.exe npm
           node -v
           npm -v
-          npm exec --yes node -v
+          npm exec --yes -- node -v
       - name: Build (Windows)
         if: matrix.platform == 'windows'
         shell: pwsh
@@ -103,7 +103,7 @@ jobs:
           where.exe npm
           node -v
           npm -v
-          npm exec --yes node -v
+          npm exec --yes -- node -v
           npm run prebuild --verbose -- --production
           npm test -- --ci --coverage
           npm run bench
