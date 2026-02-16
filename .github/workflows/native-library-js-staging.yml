@@ -122,7 +122,6 @@ jobs:
           where.exe npm
           node -v
           npm -v
-          npm config get user-agent
       - name: Build (Windows)
         if: matrix.platform == 'windows'
         shell: pwsh
@@ -133,7 +132,6 @@ jobs:
           where.exe npm
           node -v
           npm -v
-          npm config get user-agent
           npm run prebuild --verbose
           npm test -- --ci --coverage
           npm run bench --if-present
